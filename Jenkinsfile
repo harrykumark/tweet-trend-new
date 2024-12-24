@@ -34,7 +34,7 @@ environment {
                           "files": [
                             {
                               "pattern": "/home/ubuntu/jenkins/workspace/_trend_multibranch_pipeline_main/jarstaging/com/valaxy/demo-workshop/2.1.2/*.jar",
-                              "target": "libs-release-local/{1}",
+                              "target": "maven-libs-release-local/{1}",
                               "flat": "false",
                               "props" : "${properties}",
                               "exclusions": [ "*.sha1", "*.md5"]
