@@ -1,4 +1,6 @@
 def registry = 'https://harry007.jfrog.io'
+def imageName = 'harry007.jfrog.io/valaxy-docker-local/ttrend'
+def version   = '2.1.2'
 pipeline {
     agent {
         node {
@@ -33,7 +35,7 @@ environment {
                      def uploadSpec = """{
                           "files": [
                             {
-                              "pattern": "/home/ubuntu/jenkins/workspace/_trend_multibranch_pipeline_main/jarstaging/com/valaxy/demo-workshop/2.1.2/*.jar",
+                              "pattern": "jarstaging/(*)",
                               "target": "maven-libs-release-local/{1}",
                               "flat": "false",
                               "props" : "${properties}",
@@ -48,6 +50,31 @@ environment {
             
             }
         }   
-    }   
+    }
+
+
+    stage(" Docker Build ") {
+      steps {
+        script {
+           echo '<--------------- Docker Build Started --------------->'
+           app = docker.build(imageName+":"+version)
+           echo '<--------------- Docker Build Ends --------------->'
+        }
+      }
+    }
+
+            stage (" Docker Publish "){
+        steps {
+            script {
+               echo '<--------------- Docker Publish Started --------------->'  
+                docker.withRegistry(registry, 'artifact-cred'){
+                    app.push()
+                }    
+               echo '<--------------- Docker Publish Ended --------------->'  
+            }
+        }
+    }
+
+  
 }
 }
