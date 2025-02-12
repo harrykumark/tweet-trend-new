@@ -78,7 +78,8 @@ environment {
     stage (" Deploy") {
       steps {
         script {
-          sh '/home/ubuntu/jenkins/workspace/_trend_multibranch_pipeline_main/kubernetes/deploy.sh'
+          dir('/home/ubuntu/jenkins/workspace/_trend_multibranch_pipeline_main/kubernetes')
+            sh './deploy.sh'
         }
       }
     }
